@@ -42,10 +42,6 @@ testing.
 - **Simulation-oriented prediction.** The outputs describe lateral speed and
   longitudinal speed over a future horizon, providing a direct basis for
   reconstructing vehicle motion in highway on-ramp scenarios.
-- **Broad comparative foundation.** The repository includes recurrent and
-  attention-based baselines to support systematic study of merging behavior
-  prediction.
-
 The implementation combines recurrent temporal modeling, adaptive sparse
 attention, and a Transformer encoder-decoder. Its default configuration uses 15
 observed traffic and motion features to predict 10 future steps of lateral and
@@ -143,18 +139,7 @@ paths and experimental feature dimensions still need to be unified. Any result
 reported from this code should record the exact script, data schema,
 configuration, checkpoint, and dependency environment used.
 
-## 7. Known limitations
-
-- The pinned environment has not yet been recreated from a clean checkout.
-- The dataset and pretrained weights are not included.
-- Some training and evaluation scripts use 23 inputs and 7 outputs, while the
-  main loader currently provides 15 inputs and 2 targets.
-- Hyperparameters and paths are duplicated across standalone scripts.
-- The loader concatenates CSV files before generating sliding windows and then
-  randomly splits windows. Review this procedure for trajectory-boundary and
-  train/test leakage before reporting experimental results.
-
-## 8. License and attribution
+## 7. License and attribution
 
 The source code in this repository is licensed under the
 [Apache License 2.0](LICENSE). This license does not cover the private dataset.
@@ -166,7 +151,7 @@ is distributed under the MIT License. See
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and the retained upstream
 license for details.
 
-## 9. Citation
+## 8. Citation
 
 This repository accompanies the following unpublished manuscript:
 
