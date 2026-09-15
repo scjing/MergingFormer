@@ -14,32 +14,43 @@ Asad J. Khattak
 
 </div>
 
-MergingFormer is a PyTorch research project for multivariate vehicle trajectory
-prediction. The main model combines an LSTM temporal branch, adaptive sparse
-window attention, data embeddings, and a Transformer encoder-decoder. The
-repository also contains recurrent, Transformer, Performer, Informer,
-Autoformer, and DLinear comparison models.
+Highway on-ramp merging is a safety-critical driving scenario in which lateral
+motion, longitudinal speed adjustment, and interaction timing evolve together.
+Even small distributional deviations in simulated behavior can change traffic
+conflicts and lead to unrealistic conclusions in autonomous-vehicle testing.
 
-> **Status:** the original environment has been reconstructed from the recorded
-> package versions, but installation, training, and evaluation have not yet been
-> revalidated from a clean checkout.
+MergingFormer is a research framework for learning **distributionally
+consistent two-dimensional merging behavior** from naturalistic trajectory
+data. It models the coupled evolution of lateral and longitudinal movement with
+the goal of reproducing realistic merging processes, rather than only
+minimizing point-wise prediction error. The framework is designed to support
+high-fidelity traffic simulation, scenario reconstruction, safety evaluation,
+and the generation of behaviorally credible agents for autonomous-vehicle
+testing.
 
-## 1. Model overview
+## 1. Research highlights
 
-The current implementation in [`models/MyTransformer.py`](models/MyTransformer.py)
-uses four main stages:
+- **Coupled two-dimensional behavior modeling.** MergingFormer learns lateral
+  and longitudinal behavior as a coordinated process, reflecting how drivers
+  negotiate gaps while adjusting position and speed.
+- **Distribution-oriented simulation fidelity.** The research focuses on the
+  statistical realism of generated behavior, an essential requirement when
+  simulated trajectories are used to expose an autonomous driving system to
+  representative traffic risk.
+- **Multi-scale temporal reasoning.** The model captures both immediate motion
+  changes and longer-range dependencies across the complete merging process.
+- **Simulation-oriented prediction.** The outputs describe lateral speed and
+  longitudinal speed over a future horizon, providing a direct basis for
+  reconstructing vehicle motion in highway on-ramp scenarios.
+- **Broad comparative foundation.** The repository includes recurrent and
+  attention-based baselines to support systematic study of merging behavior
+  prediction.
 
-1. embed the multivariate input sequence;
-2. extract temporal features with a three-layer LSTM;
-3. refine the LSTM features with adaptive sparse window attention, which learns
-   a mixture of softmax attention and squared-ReLU attention; and
-4. fuse the embedded and recurrent features before Transformer encoding and
-   decoding.
-
-The default training configuration predicts 10 future steps from 15 input
-features and produces 2 target variables: lateral speed (`speedY`) and speed
-(`speed`). Some experimental scripts use different feature and target counts;
-review their configuration before use.
+The implementation combines recurrent temporal modeling, adaptive sparse
+attention, and a Transformer encoder-decoder. Its default configuration uses 15
+observed traffic and motion features to predict 10 future steps of lateral and
+longitudinal speed. See [`models/MyTransformer.py`](models/MyTransformer.py) for
+the model definition.
 
 ## 2. Repository structure
 
@@ -165,9 +176,3 @@ This repository accompanies the following unpublished manuscript:
 
 GitHub can also export the metadata in [`CITATION.cff`](CITATION.cff). The
 publication venue, year, DOI, and paper URL will be added after publication.
-
-## 10. Contributing
-
-Focused issues and pull requests are welcome. Please read
-[`CONTRIBUTING.md`](CONTRIBUTING.md) and do not upload private or
-redistribution-restricted trajectory data.

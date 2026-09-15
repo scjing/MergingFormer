@@ -56,8 +56,6 @@ Use this checklist before making the repository public.
 
 ## Repository maintenance
 
-- [ ] Add contributor guidelines and a code of conduct if outside contributions
-      will be accepted.
 - [ ] Choose an issue tracker and define what information bug reports require.
 - [ ] Configure repository topics, description, and social preview image.
 - [ ] Enable branch protection and automated checks when a test workflow exists.
