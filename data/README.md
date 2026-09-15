@@ -3,6 +3,32 @@
 This directory is reserved for datasets used by MergingFormer. Dataset files are
 excluded from version control by default.
 
+## Provenance and citation
+
+The experimental dataset used by this project was produced by processing the
+**Freeway C Merge/Diverge Segment** of the
+[UCF-SST CitySim Dataset](https://github.com/UCF-SST-Lab/UCF-SST-CitySim1-Dataset).
+CitySim and the processed trajectories are not included in this repository.
+Users must obtain the source data from the official provider and comply with
+the terms attached to their access.
+
+Research using these data should cite the CitySim publication:
+
+```bibtex
+@article{zheng2024citysim,
+  author  = {Ou Zheng and Mohamed Abdel-Aty and Lishengsa Yue and
+             Amr Abdelraouf and Zijin Wang and Nada Mahmoud},
+  title   = {CitySim: A Drone-Based Vehicle Trajectory Dataset for
+             Safety-Oriented Research and Digital Twins},
+  journal = {Transportation Research Record},
+  volume  = {2678},
+  number  = {4},
+  pages   = {606--621},
+  year    = {2024},
+  doi     = {10.1177/03611981231185768}
+}
+```
+
 ## Expected format
 
 The current main data loader (`src/data_processing.py`) reads every `.csv` file
@@ -48,10 +74,10 @@ match the local path.
 
 ## Data availability
 
-The original dataset is not open-sourced and is not included in this
+The CitySim source data and the processed dataset are not included in this
 repository. The Apache License 2.0 used for the repository source code grants no
-rights to the dataset. Users must supply their own lawfully obtained data in a
-compatible format.
+rights to either dataset. Users must supply their own lawfully obtained data in
+a compatible format.
 
 Do not commit original records, derived records, samples, plots that expose
 records, or dataset metadata unless the data owner separately authorizes their

@@ -85,12 +85,29 @@ The PyTorch packages in these files target CUDA 11.3. Users with another CUDA
 version or CPU-only systems should install a compatible PyTorch build first and
 then install the remaining dependencies.
 
-## 4. Data preparation
+## 4. Dataset
 
-The original dataset is not open-sourced and is not distributed in this
-repository. The Apache License 2.0 for the source code grants no rights to the
-dataset. Users must provide their own lawfully obtained CSV trajectories in a
-compatible schema.
+The experiments in this repository are based on trajectory samples processed
+from the **Freeway C Merge/Diverge Segment** of the UCF-SST CitySim Dataset.
+
+| Item | Description |
+| --- | --- |
+| Source dataset | [UCF-SST CitySim Dataset](https://github.com/UCF-SST-Lab/UCF-SST-CitySim1-Dataset) |
+| Scenario | Freeway C Merge/Diverge Segment |
+| Repository release | Source code only; original and processed trajectories are not included |
+| Data access | Request the data from the official CitySim provider |
+
+Users are responsible for obtaining CitySim and complying with its terms of
+use. The Apache License 2.0 in this repository applies only to the MergingFormer
+source code and does not grant rights to CitySim or the processed trajectories.
+
+If you use this project with CitySim data, please also cite the CitySim paper:
+
+> O. Zheng, M. Abdel-Aty, L. Yue, A. Abdelraouf, Z. Wang, and N. Mahmoud,
+> “CitySim: A Drone-Based Vehicle Trajectory Dataset for Safety-Oriented
+> Research and Digital Twins,” *Transportation Research Record*, vol. 2678,
+> no. 4, pp. 606–621, 2024.
+> [doi:10.1177/03611981231185768](https://doi.org/10.1177/03611981231185768)
 
 Suggested local layout:
 
@@ -101,8 +118,8 @@ data/
     `-- trajectory_002.csv
 ```
 
-See [`data/README.md`](data/README.md) for the 15 required input columns, the 2
-prediction targets, preprocessing behaviour, and known schema differences.
+See [`data/README.md`](data/README.md) for provenance, citation metadata, the 15
+required input columns, the 2 prediction targets, and preprocessing behaviour.
 
 ## 5. Paths and configurations to review
 
@@ -142,7 +159,8 @@ configuration, checkpoint, and dependency environment used.
 ## 7. License and attribution
 
 The source code in this repository is licensed under the
-[Apache License 2.0](LICENSE). This license does not cover the private dataset.
+[Apache License 2.0](LICENSE). This license does not cover the CitySim source
+data or the processed trajectories used in the experiments.
 
 Parts of the time-series layers, utilities, and comparison models are derived
 from or based on
