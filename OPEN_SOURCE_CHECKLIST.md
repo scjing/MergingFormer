@@ -46,7 +46,9 @@ Use this checklist before making the repository public.
 - [ ] Add one documented training command after validating it from a clean
       checkout.
 - [ ] Add one documented evaluation command after validating checkpoint loading.
-- [ ] Pin or otherwise record a known working dependency environment.
+- [x] Record the original Python 3.9 environment from the available package
+      screenshots in `environment.yml` and `requirements.txt`.
+- [ ] Recreate and validate the recorded environment from a clean checkout.
 - [ ] Explain the model architecture, expected inputs and outputs, metrics, and
       reported results.
 - [ ] Add paper citation metadata (`CITATION.cff`) when bibliographic details are

@@ -1,0 +1,22 @@
+name: mergingformer
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.9.23
+  - pip=25.1
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu113
+      - torch==1.12.0+cu113
+      - torchvision==0.13.0+cu113
+      - numpy==1.22.4
+      - pandas==1.2.4
+      - scikit-learn==1.6.1
+      - matplotlib==3.5.1
+      - tqdm==4.67.1
+      - einops==0.8.1
+      - timm==1.0.9
+      - scipy==1.13.1
+      - sympy==1.14.0
+      - reformer-pytorch==1.4.4

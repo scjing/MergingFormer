@@ -1,117 +1,163 @@
+<div align="center">
+
 # MergingFormer
 
-MergingFormer is a PyTorch research project for sequence modelling and vehicle
-trajectory prediction in lane-changing scenarios. The repository contains the
-main MergingFormer implementation together with several recurrent and
-Transformer-based comparison models.
+**Vehicle trajectory prediction for lane-changing scenarios**
 
-> **Project status:** this repository is being prepared for its first public
-> release. The installation, training, and evaluation workflow has not yet been
-> validated in a clean environment. Interfaces and file paths may change.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9-blue.svg)](environment.yml)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.12.0-ee4c2c.svg)](requirements.txt)
 
-## Repository structure
+</div>
+
+MergingFormer is a PyTorch research project for multivariate vehicle trajectory
+prediction. The main model combines an LSTM temporal branch, adaptive sparse
+window attention, data embeddings, and a Transformer encoder-decoder. The
+repository also contains recurrent, Transformer, Performer, Informer,
+Autoformer, and DLinear comparison models.
+
+> **Status:** the original environment has been reconstructed from the recorded
+> package versions, but installation, training, and evaluation have not yet been
+> revalidated from a clean checkout.
+
+## 1. Model overview
+
+The current implementation in [`models/MyTransformer.py`](models/MyTransformer.py)
+uses four main stages:
+
+1. embed the multivariate input sequence;
+2. extract temporal features with a three-layer LSTM;
+3. refine the LSTM features with adaptive sparse window attention, which learns
+   a mixture of softmax attention and squared-ReLU attention; and
+4. fuse the embedded and recurrent features before Transformer encoding and
+   decoding.
+
+The default training configuration predicts 10 future steps from 15 input
+features and produces 2 target variables: lateral speed (`speedY`) and speed
+(`speed`). Some experimental scripts use different feature and target counts;
+review their configuration before use.
+
+## 2. Repository structure
 
 ```text
 .
-├── data/       # Local datasets (excluded from version control)
-├── layers/     # Attention, embedding, correlation, and encoder/decoder layers
-├── models/     # MergingFormer and comparison model definitions
-├── src/        # Data loading, training, evaluation, and test scripts
-├── tools/      # Small environment inspection utilities
-└── utils/      # Masks, time features, metrics, and preprocessing helpers
+|-- data/                 # Local datasets; contents are excluded from Git
+|-- layers/               # Attention, embedding, and encoder-decoder layers
+|-- models/               # MergingFormer and comparison models
+|-- src/                  # Data loading, training, and evaluation scripts
+|-- tools/                # Small environment inspection utilities
+|-- utils/                # Masks, time features, metrics, and data helpers
+|-- environment.yml       # Recorded Conda environment
+`-- requirements.txt      # Pinned direct Python dependencies
 ```
 
-The current main model is defined in `models/MyTransformer.py`, and the
-corresponding training entry point is `src/train.py`. Additional scripts cover
-LSTM, BiLSTM, Transformer, Performer, Informer, Autoformer, DLinear, and hybrid
-variants.
+## 3. Environment setup
 
-## Requirements
-
-- Python 3.9 or a compatible version
-- PyTorch
-- The packages listed in `requirements.txt`
-- A CUDA-capable GPU is optional; the scripts select CUDA when it is available
-
-Create a virtual environment and install the inferred dependencies:
+The recorded training environment used Python 3.9.23 and PyTorch 1.12.0 with
+CUDA 11.3. Create it with Conda:
 
 ```bash
-python -m venv .venv
+git clone https://github.com/scjing/MergingFormer.git
+cd MergingFormer
+conda env create -f environment.yml
+conda activate mergingformer
+```
 
-# Windows PowerShell
-.venv\Scripts\Activate.ps1
+Alternatively, install the pinned packages into an existing Python 3.9
+environment:
 
+```bash
 pip install -r requirements.txt
 ```
 
-Exact dependency versions have not yet been validated or locked.
+The PyTorch packages in these files target CUDA 11.3. Users with another CUDA
+version or CPU-only systems should install a compatible PyTorch build first and
+then install the remaining dependencies.
 
-## Data preparation
+## 4. Data preparation
 
-The dataset is not open-sourced or distributed with this repository. Users must
-provide their own lawfully obtained, compatible CSV data. Place local CSV files
-under a subdirectory of `data/` and update the `data_folder` value in the script
-you intend to use.
+The original dataset is not open-sourced and is not distributed in this
+repository. The Apache License 2.0 for the source code grants no rights to the
+dataset. Users must provide their own lawfully obtained CSV trajectories in a
+compatible schema.
 
-See [`data/README.md`](data/README.md) for the CSV columns expected by the
-current main data loader and for known schema differences between scripts.
+Suggested local layout:
 
-## Training and evaluation
+```text
+data/
+`-- your_dataset/
+    |-- trajectory_001.csv
+    `-- trajectory_002.csv
+```
 
-The repository currently contains standalone research scripts rather than a
-single stable command-line interface:
+See [`data/README.md`](data/README.md) for the 15 required input columns, the 2
+prediction targets, preprocessing behaviour, and known schema differences.
 
-- `src/train.py` trains the model from `models/MyTransformer.py`.
-- `src/evaluate.py` evaluates a saved model and generates metrics and plots.
-- Files named `src/train_*.py` and `src/test_*.py` cover comparison models and
-  experimental variants.
+## 5. Paths and configurations to review
 
-Before running a script, review its data path, checkpoint path, feature count,
-target count, and model configuration. Several values are currently defined
-inside the scripts. Commands are intentionally omitted until the workflow has
-been validated from a clean checkout.
+Most experiment settings are currently defined inside individual scripts.
+Replace the example paths and confirm the dimensions before running them.
 
-Training outputs are written to a checkpoint directory and include model
-weights, per-epoch losses, and a loss curve. These generated files are excluded
-from version control.
+| Location | Setting | Purpose |
+| --- | --- | --- |
+| `src/train.py` | `data_folder` | Directory containing training CSV files |
+| `src/train.py` | `save_dir` | Directory for checkpoints, loss logs, and plots |
+| `src/evaluate.py` | `--data_folder` | Evaluation dataset directory |
+| `src/evaluate.py` | `--config_name` | Checkpoint experiment directory |
+| `src/evaluate.py` | `--specific_file` | One trajectory used for visualization |
+| each `Config` class | `enc_in`, `dec_in`, `c_out` | Input and output dimensions |
 
-## Known limitations
+Paths are interpreted relative to the process working directory. Dataset and
+checkpoint paths are excluded from Git by default.
 
-- The project has not yet been tested from a clean installation.
-- Dependency versions are not pinned.
-- Data and pretrained weights are not included.
-- Training and evaluation defaults currently use different feature dimensions
-  in some scripts.
-- Data paths and most hyperparameters are hard-coded in individual scripts.
-- The current loader concatenates CSV files before creating sliding windows and
-  randomly splitting samples. This behaviour should be reviewed before using
-  the code for reported experiments.
+## 6. Training and evaluation
 
-## Contributing
+The current main entry points are:
 
-Bug reports and focused pull requests are welcome once the first public release
-is available. When reporting an issue, include the operating system, Python and
-PyTorch versions, the script used, and the full error message. Do not attach
-private or restricted trajectory data.
+- `src/train.py` for MergingFormer training;
+- `src/evaluate.py` for aggregate evaluation and trajectory visualization;
+- `src/train_*.py` for comparison-model training; and
+- `src/test_*.py` for comparison-model evaluation.
 
-See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for the pending source
-and license audit.
+Training writes the best checkpoint, epoch weights, loss values, and a loss
+curve under the selected checkpoint directory. Evaluation writes numerical
+metrics and figures to the corresponding experiment directory.
 
-## Acknowledgements
+Commands are not presented as validated recipes yet because the hard-coded
+paths and experimental feature dimensions still need to be unified. Any result
+reported from this code should record the exact script, data schema,
+configuration, checkpoint, and dependency environment used.
 
-Parts of the reusable time-series layers are derived from or based on
+## 7. Known limitations
+
+- The pinned environment has not yet been recreated from a clean checkout.
+- The dataset and pretrained weights are not included.
+- Some training and evaluation scripts use 23 inputs and 7 outputs, while the
+  main loader currently provides 15 inputs and 2 targets.
+- Hyperparameters and paths are duplicated across standalone scripts.
+- The loader concatenates CSV files before generating sliding windows and then
+  randomly splits windows. Review this procedure for trajectory-boundary and
+  train/test leakage before reporting experimental results.
+
+## 8. License and attribution
+
+The source code in this repository is licensed under the
+[Apache License 2.0](LICENSE). This license does not cover the private dataset.
+
+Parts of the time-series layers, utilities, and comparison models are derived
+from or based on
 [THUML Time-Series-Library](https://github.com/thuml/Time-Series-Library), which
 is distributed under the MIT License. See
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for details and the retained
-upstream license.
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and the retained upstream
+license for details.
 
-## Citation
+## 9. Citation
 
-If this repository accompanies a paper, citation metadata will be added before
-the first stable release.
+Citation metadata will be added when the accompanying paper information is
+finalized.
 
-## License
+## 10. Contributing
 
-The source code in this repository is licensed under the Apache License 2.0.
-See [`LICENSE`](LICENSE). This license does not apply to the dataset, which is
-not included or open-sourced as part of this project.
+Focused issues and pull requests are welcome. Please read
+[`CONTRIBUTING.md`](CONTRIBUTING.md) and do not upload private or
+redistribution-restricted trajectory data.
