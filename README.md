@@ -97,6 +97,14 @@ private or restricted trajectory data.
 See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for the pending source
 and license audit.
 
+## Acknowledgements
+
+Parts of the reusable time-series layers are derived from or based on
+[THUML Time-Series-Library](https://github.com/thuml/Time-Series-Library), which
+is distributed under the MIT License. See
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for details and the retained
+upstream license.
+
 ## Citation
 
 If this repository accompanies a paper, citation metadata will be added before
