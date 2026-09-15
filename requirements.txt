@@ -1,0 +1,13 @@
+# Direct runtime dependencies inferred from the source code.
+# Exact versions have not yet been validated together.
+torch
+numpy
+pandas
+scikit-learn
+matplotlib
+tqdm
+einops
+timm
+scipy
+sympy
+reformer-pytorch

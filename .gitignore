@@ -1,0 +1,44 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and local environment files
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Build and packaging outputs
+build/
+dist/
+*.egg-info/
+
+# Datasets: keep documentation, exclude local/raw data by default
+data/*
+!data/README.md
+!data/.gitkeep
+
+# Model checkpoints and experiment outputs
+checkpoints/
+outputs/
+results/
+runs/
+*.pt
+*.pth
+*.ckpt
+
+# Generated plots and logs
+*.log
+losses.txt
+loss_curve.png
