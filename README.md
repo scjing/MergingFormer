@@ -2,7 +2,11 @@
 
 # MergingFormer
 
-**Vehicle trajectory prediction for lane-changing scenarios**
+**Distributionally consistent two-dimensional merging behavior model for
+autonomous vehicle simulation test at highway on-ramps**
+
+Shoucai Jing, Wanpeng Zhu, Aohua Wang, Xiangmo Zhao, Xiaolong Ma, and
+Asad J. Khattak
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.9-blue.svg)](environment.yml)
@@ -153,8 +157,14 @@ license for details.
 
 ## 9. Citation
 
-Citation metadata will be added when the accompanying paper information is
-finalized.
+This repository accompanies the following unpublished manuscript:
+
+> Shoucai Jing, Wanpeng Zhu, Aohua Wang, Xiangmo Zhao, Xiaolong Ma, and Asad J.
+> Khattak. *Mergingformer: distributionally consistent two-dimensional merging
+> behavior model for autonomous vehicle simulation test at highway on-ramps*.
+
+GitHub can also export the metadata in [`CITATION.cff`](CITATION.cff). The
+publication venue, year, DOI, and paper URL will be added after publication.
 
 ## 10. Contributing
 

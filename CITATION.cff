@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "This software accompanies an unpublished manuscript; please use this preliminary citation until publication details are available."
+title: "MergingFormer"
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/scjing/MergingFormer"
+authors:
+  - family-names: Jing
+    given-names: Shoucai
+  - family-names: Zhu
+    given-names: Wanpeng
+  - family-names: Wang
+    given-names: Aohua
+  - family-names: Zhao
+    given-names: Xiangmo
+  - family-names: Ma
+    given-names: Xiaolong
+  - family-names: Khattak
+    given-names: "Asad J."
+preferred-citation:
+  type: article
+  title: "Mergingformer: distributionally consistent two-dimensional merging behavior model for autonomous vehicle simulation test at highway on-ramps"
+  authors:
+    - family-names: Jing
+      given-names: Shoucai
+    - family-names: Zhu
+      given-names: Wanpeng
+    - family-names: Wang
+      given-names: Aohua
+    - family-names: Zhao
+      given-names: Xiangmo
+    - family-names: Ma
+      given-names: Xiaolong
+    - family-names: Khattak
+      given-names: "Asad J."

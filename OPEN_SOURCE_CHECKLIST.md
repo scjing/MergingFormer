@@ -51,8 +51,8 @@ Use this checklist before making the repository public.
 - [ ] Recreate and validate the recorded environment from a clean checkout.
 - [ ] Explain the model architecture, expected inputs and outputs, metrics, and
       reported results.
-- [ ] Add paper citation metadata (`CITATION.cff`) when bibliographic details are
-      final.
+- [x] Add manuscript title and authors to `CITATION.cff`.
+- [ ] Add the publication venue, year, DOI, and paper URL when finalized.
 
 ## Repository maintenance
 
